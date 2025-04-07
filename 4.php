@@ -1,7 +1,7 @@
 <?php
 $file_png = __DIR__ . '/donut.png';  // Путь к PNG изображению
 $file_jpg = __DIR__ . '/donut_bg.jpg';  // Путь к JPG фону
-
+echo $file_jpg;
 // Проверка существования файлов
 if (!file_exists($file_png) || !file_exists($file_jpg)) {
     die("Один или оба файла не найдены.");

@@ -1,7 +1,5 @@
 <?php
 $img = imagecreatefrompng('donut.png');  // Загружаем изображение
-$width = 200;  // Новая ширина
-$height = 350;  // Новая высота
 
 
 $tmp = imagecreatetruecolor($width, $height);  // Создаем новое изображение с заданными размерами
