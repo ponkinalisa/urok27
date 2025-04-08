@@ -35,8 +35,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     <link rel="stylesheet" type="text/css" href="css/preview.css">
 </head>
 <body>
+    <!-- Обрезка изображения -->
+    <form class="wrapper" action="editor.php" method="post">
+    <h3>Обрезка изображения</h3>
+            <label>Ширина: <input type="number" name="widthBox" id="widthBox"  min="100" title="Width"></label>
+            <label>Высота: <input type="number" name="heightBox" id="heightBox"  min="100" title="Height"></label>
+   			 <label>Отступ сверху: <input type="number" name="topBox" id="topBox" value="0" min="0" title="Top"> </label>
+   			 <label>Отступ слева: <input type="number" name="leftBox" id="leftBox" value="0" min="0" title="Left"></label>
+   			 <input type="submit" value="Сохранить" id="save">
+    </form>
+
     <div class="btn" onclick="download()">Скачать</div>
-    <div class="main">
+
+    <div class="main" id="main">
         <form action="preview.php" method="post">
             <div class="item">
                 <input type="checkbox" name="blur" id="blur" value="blur" class="toggle" <?php if(isset($_SESSION['blur']) and $_SESSION['blur'] == 1){echo('checked');}?>>
@@ -67,13 +78,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 echo 'value="100" style="background-size: 100% 100%;"';
             }
             ?>>
+            <input id="btn_crop" value="Обрезать" type="button">
             <input type="submit" value="Применить изменения">
         </form>
         <div class="error"></div>
     </div>
     <div class="photo">
-        <img src="img.php" alt="здесь должно быть ваше фото">
+             <canvas id="canvas" class="canvas">
+   			 </canvas>
+        <img src="img.php" class="image"  id="image" alt="здесь должно быть ваше фото">
     </div>
+    
     <script>
         function download(){
             window.location.href = "download.php";
@@ -100,5 +115,6 @@ rangeInputs.forEach(input => {
 numberInput.addEventListener('input', handleInputChange)
 
     </script>
+    <script src="js/crop.js"></script>
 </body>
 </html>

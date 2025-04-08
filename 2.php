@@ -1,10 +1,17 @@
 <?php
-$img = imagecreatefromjpeg('donut.jpeg');  // Загружаем изображение PNG
-$transparent = imagecolorallocatealpha($img, 0, 0, 0, 127);  // Устанавливаем прозрачность
-$img = imagerotate($img, 45, $transparent);  // Поворот против часовой стрелки на 45°
+session_start();
+function crop($img, $oldWidth, $oldHeight){
+    $width = $_SESSION['width'];
+    $height = $_SESSION['height'];
+    $top = $_SESSION['top'];
+    $left = $_SESSION['left'];
+    $cw = $_SESSION['cw'];
+    $ch = $_SESSION['ch'];
+    echo $width;
+    echo $height;
+}
 
-header('Content-Type: image/jpeg');
-imagejpeg($img);  // Выводим изображение
-imagedestroy($img);  // Освобождаем ресурсы
-exit();
+$img = imagecreatefromjpeg('donut_bg.jpg');  // Загружаем изображение PNG
+crop($img, imagesx($img), imagesy($img));
+
 ?>

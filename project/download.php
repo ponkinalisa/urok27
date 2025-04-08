@@ -21,6 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 if ($_SESSION['invers'] == 1){
                     negate($img);
                 }
+                if (isset($_SESSION['crop']) and $_SESSION['crop'] == 1){
+                    $img = crop($img, imagesx($img), imagesy($img));
+                }
                 $img = rotate($img, (int)$_SESSION['rotation']);
                 $img = scale($img);
                 header("Content-Disposition: attachment; filename=your_new_image.gif");
@@ -40,6 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 if ($_SESSION['invers'] == 1){
                     negate($img);
                 }
+                if (isset($_SESSION['crop']) and $_SESSION['crop'] == 1){
+                    $img = crop($img, imagesx($img), imagesy($img));
+                }
                 $img = rotate($img, (int)$_SESSION['rotation']);
                 $img = scale($img);
                 header("Content-Disposition: attachment; filename=your_new_image.jpeg");
@@ -58,6 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 if ($_SESSION['invers'] == 1){
                     negate($img);
                 }
+                if (isset($_SESSION['crop']) and $_SESSION['crop'] == 1){
+                    $img = crop($img, imagesx($img), imagesy($img));
+                }
                 $img = rotate($img, (int)$_SESSION['rotation']);
                 $img = scale($img);
                 header("Content-Disposition: attachment; filename=your_new_image.png");
@@ -66,7 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 imagedestroy($img);
                 break;
             }
-            unlink($path);
         }}
 }
 ?>
@@ -82,7 +90,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 <body>
     <form enctype="multipart/form-data" action="download.php" method="post">
         <h3>Загрузка изображения</h3>
-        <img src="img.php" alt="здесь должно быть ваше фото" width='150px' height='150px'>
+        <img src="img.php" alt="здесь должно быть ваше фото" <?php 
+        if (isset($_SESSION['width']) and isset($_SESSION['width'])){
+            if ($_SESSION['width'] > 150){
+                $width = 150;
+                $height = (int)($_SESSION['height'] / ($_SESSION['width'] / 150));
+            }
+            if ($_SESSION['height'] > 150){
+                $height = 150;
+                $width = (int)($_SESSION['width'] / ($_SESSION['height'] / 150));
+            }
+        }else{
+            $height = 150;
+            $width = 150;
+        }
+        echo "width='$width px' height='$height px'";
+        ?>>
         <input type="submit" value="Скачать">
     </form>
     <?php 

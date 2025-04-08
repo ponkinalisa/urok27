@@ -38,6 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $_SESSION['invers'] = 0;
             $_SESSION['rotation'] = 0;
             $_SESSION['scale'] = 100;
+            $_SESSION['crop'] = 0;
+            $_SESSION['width'] = getimagesize($path)[0];
+            $_SESSION['height'] = getimagesize($path)[1];
+            $_SESSION['top'] = 0;
+            $_SESSION['left'] = 0;
             header('Location: preview.php');
         }
     }else{
@@ -57,10 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 <body>
     <form enctype="multipart/form-data" action="index.php" method="post">
         <h3>Выбор изображения</h3>
+        <label id="fileformlabel" style="display: none; height: 0px;"></label>
         <label class="input-file">
-            <input id="file" type="file" name="file" accept=".jpg, .jpeg, .png, .gif" required>
+            <input id="file" type="file" name="file" accept=".jpg, .jpeg, .png, .gif" onchange="getName(this.value);" required>
             <span class="input-file-btn">Выберите фото</span>   
-            <label for="file"> В формате png, jpg или gif</label>      
+            <label for="file">В формате png, jpg или gif</label><br>
         </label>
         <input type="submit" value="Редактировать">
     </form>
@@ -69,5 +75,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         echo "<div class='error'>$error</div>";
     };
     ?>
+    <script>
+        function getName (str){
+    if (str.lastIndexOf('\\')){
+        var i = str.lastIndexOf('\\')+1;
+    }
+    else{
+        var i = str.lastIndexOf('/')+1;
+    }						
+    var filename = str.slice(i);			
+    var uploaded = document.getElementById("fileformlabel");
+    uploaded.style.height = '20px';
+    uploaded.style.display = 'block';
+    uploaded.innerHTML = 'Выбран файл: ' + filename;
+    }
+    </script>
 </body>
 </html>
