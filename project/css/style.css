@@ -100,13 +100,12 @@ input[type="submit"]:hover{
 }
 
 #fileformlabel { 
-    font-size: 15px;
-    background-color: #FFFFFF;
-    height: 0px;
-    overflow: hidden;
+    font-size: 20px;
+    color: black;
     text-align: center;
     vertical-align: middle;
-    width:160px;
+    width: 160px;
+    height: 10px;
 }
 .error{
     margin: 10px;

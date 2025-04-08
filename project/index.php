@@ -83,10 +83,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     else{
         var i = str.lastIndexOf('/')+1;
     }						
-    var filename = str.slice(i);			
+    var filename = str.slice(i);
+    console.log(filename);
     var uploaded = document.getElementById("fileformlabel");
-    uploaded.style.height = '20px';
     uploaded.style.display = 'block';
+    uploaded.style.height = '20px';
     uploaded.innerHTML = 'Выбран файл: ' + filename;
     }
     </script>
