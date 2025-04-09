@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $_SESSION['top'] = 0;
             $_SESSION['left'] = 0;
 
-            $sql = "INSERT INTO images (user_id, name,  description, type) VALUES(:user_id, :name, :description, :type)";
+            $sql = "INSERT INTO images (user_id, name,  description, type, date) VALUES(:user_id, :name, :description, :type, CURRENT_DATE())";
             $stmt = $pdo->prepare($sql);
             $stmt->execute(['user_id' => $_SESSION['id'], 'name' => $new_file_name . '.' . $ext, 'description' => '', 'type' => $ext]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);

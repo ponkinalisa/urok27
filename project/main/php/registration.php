@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if (!isset($error)){
         // Сохраняем данные в базе данных
-        $sql = "INSERT INTO users (login, password) VALUES (:username, :password)";
+        $sql = "INSERT INTO users (login, password, date) VALUES (:username, :password, CURRENT_DATE())";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['username' => $username, 'password' => $hashedPassword]);
 
