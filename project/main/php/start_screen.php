@@ -6,6 +6,11 @@ if (!isset($_SESSION['id']) or !isset($_SESSION['login'])){
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if (isset($_POST['description'])){
+        $description = $_POST['description'];
+    }else{
+        $description = '';
+    }
     if (isset($_FILES['file'])){
         $file = $_FILES['file'];
         $type = $file['type'];
@@ -55,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $sql = "INSERT INTO images (user_id, name,  description, type, date) VALUES(:user_id, :name, :description, :type, CURRENT_DATE())";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute(['user_id' => $_SESSION['id'], 'name' => $new_file_name . '.' . $ext, 'description' => '', 'type' => $ext]);
+            $stmt->execute(['user_id' => $_SESSION['id'], 'name' => $new_file_name . '.' . $ext, 'description' => $description, 'type' => $ext]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             header('Location: preview.php');
         }
@@ -83,6 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             <span class="input-file-btn">Выберите фото</span>   
             <label for="file">В формате png, jpg или gif</label><br>
         </label>
+        <input type="text" placeholder="Добавьте описание фото.." name="description" required>
         <input type="submit" value="Редактировать">
         <a href="logout.php" style="font-size: 23px;">Выйти из аккаунта</a>
     </form>
