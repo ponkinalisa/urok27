@@ -1,10 +1,17 @@
 <?php 
-include('includes/functions.php');
+require_once 'config.php';
+include '../includes/functions.php';
 session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     if (isset($_SESSION['path']) and isset($_SESSION['type'])){
         $path = $_SESSION['path'];
         $type = $_SESSION['type'];
+        $blur = 0;
+        $rotation = 0;
+        $scale = 0;
+        $crop = 0;
+        $bw = 0;
+        $inversion = 0;
         if (!file_exists($path)){
             $error = 'Ошибка получения файла';
         }else{
@@ -14,21 +21,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 $img = imageCreateFromGif($path);
                 if ($_SESSION['blur'] == 1){
                     blur($img);
+                    $blur = 1;
                 }
                 if ($_SESSION['wb'] == 1){
                     bw($img);
+                    $bw = 1;
                 }
                 if ($_SESSION['invers'] == 1){
                     negate($img);
+                    $inversion = 1
                 }
                 if (isset($_SESSION['crop']) and $_SESSION['crop'] == 1){
                     $img = crop($img, imagesx($img), imagesy($img));
+                    $crop = 1;
+                }
+                if ($_SESSION['scale'] != 100){
+                    $scale = 1;
+                }
+                if ($_SESSION['rotation'] != 0){
+                    $rotation = 1;
                 }
                 $img = rotate($img, (int)$_SESSION['rotation']);
                 $img = scale($img);
                 header("Content-Disposition: attachment; filename=your_new_image.gif");
                 header('Content-Type: image/gif');
                 imagepgif($img);
+                imagepgif($img, $path);
                 imagedestroy($img);
                 break;
             case 'image/jpg':
@@ -36,46 +54,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 $img = imageCreateFromJpeg($path);
                 if ($_SESSION['blur'] == 1){
                     blur($img);
+                    $blur = 1;
                 }
                 if ($_SESSION['wb'] == 1){
                     bw($img);
+                    $bw = 1;
                 }
                 if ($_SESSION['invers'] == 1){
                     negate($img);
+                    $inversion = 1
                 }
                 if (isset($_SESSION['crop']) and $_SESSION['crop'] == 1){
                     $img = crop($img, imagesx($img), imagesy($img));
+                    $crop = 1;
+                }
+                if ($_SESSION['scale'] != 100){
+                    $scale = 1;
+                }
+                if ($_SESSION['rotation'] != 0){
+                    $rotation = 1;
                 }
                 $img = rotate($img, (int)$_SESSION['rotation']);
                 $img = scale($img);
                 header("Content-Disposition: attachment; filename=your_new_image.jpeg");
                 header('Content-Type: image/jpeg');
                 imagejpeg($img);
+                imagejpeg($img, $path);
                 imagedestroy($img);
                 break;
             case 'image/png':
                 $img = imageCreateFromPng($path);
                 if ($_SESSION['blur'] == 1){
                     blur($img);
+                    $blur = 1;
                 }
                 if ($_SESSION['wb'] == 1){
                     bw($img);
+                    $bw = 1;
                 }
                 if ($_SESSION['invers'] == 1){
                     negate($img);
+                    $inversion = 1
                 }
                 if (isset($_SESSION['crop']) and $_SESSION['crop'] == 1){
                     $img = crop($img, imagesx($img), imagesy($img));
+                    $crop = 1;
+                }
+                if ($_SESSION['scale'] != 100){
+                    $scale = 1;
+                }
+                if ($_SESSION['rotation'] != 0){
+                    $rotation = 1;
                 }
                 $img = rotate($img, (int)$_SESSION['rotation']);
                 $img = scale($img);
                 header("Content-Disposition: attachment; filename=your_new_image.png");
                 header('Content-Type: image/png');
                 imagepng($img);
+                imagepng($img, $path);
                 imagedestroy($img);
                 break;
             }
-        }}
+        }
+        try{
+            //$sql = "UPDATE images SET blur = :blur, scale = :scale, crop = :crop, bw = :bw, inversion = :inversion, rotation = :rotation  WHERE user_id = :user_id AND name = :name";
+            //$stmt = $pdo->prepare($sql);
+            //$file_name_sep = mb_split("/", $path);
+            //echo $file_name_sep[count($file_name_sep) - 1];
+            //$stmt->execute(['blur' => $blur, 'bw' => $bw, 'scale' => $scale, 'rotation' => $rotation, 'inversion' => $inversion, 'crop' => $crop, 'user_id' => $_SESSION['id'], 'name' => $file_name_sep[count($file_name_sep) - 1]]);
+            //$stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        catch (PDOException $e) {
+            $error =  'Возникла неожиданная ошибка обращения к базе данных';
+        }
+    }
 }
 ?>
 
@@ -85,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 <head>
     <meta charset="utf-8">
     <title>Загрузка изображения</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
     <form enctype="multipart/form-data" action="download.php" method="post">

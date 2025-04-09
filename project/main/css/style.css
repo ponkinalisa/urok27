@@ -118,3 +118,34 @@ input[type="submit"]:hover{
     border-color: #F14A4A;
     border-width: 5px;
 }
+a{
+    text-decoration: none;
+    color: #7777F7;
+}
+input[type="password"]{
+    background-color: #cbcbff8d;
+}
+input[type="text"]{
+    background-color: #cbcbff8d;
+}
+.btn{
+    top: 10px;
+    right: 10px;
+    position: absolute;
+    display: inline-block;
+	cursor: pointer;
+	outline: none;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgb(88, 88, 197);
+    border-color: #ddd;
+    color: white;
+    transition: transform 0.2s ease;
+    transition: border-color 0.2s ease;
+    z-index: 100;
+}
+.btn:hover{
+    transform: scale(1.05);
+    border-color:rgb(88, 88, 197);
+}

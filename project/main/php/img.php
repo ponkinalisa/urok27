@@ -1,5 +1,5 @@
 <?php 
-include('includes/functions.php');
+include('../includes/functions.php');
 session_start();
 if (isset($_SESSION['path']) and isset($_SESSION['type'])){
     $path = $_SESSION['path'];

@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 <head>
     <meta charset="utf-8">
     <title>Главная</title>
-    <link rel="stylesheet" type="text/css" href="css/preview.css">
+    <link rel="stylesheet" type="text/css" href="../css/preview.css">
 </head>
 <body>
     <!-- Обрезка изображения -->
@@ -115,6 +115,6 @@ rangeInputs.forEach(input => {
 numberInput.addEventListener('input', handleInputChange)
 
     </script>
-    <script src="js/crop.js"></script>
+    <script src="../js/crop.js"></script>
 </body>
 </html>
