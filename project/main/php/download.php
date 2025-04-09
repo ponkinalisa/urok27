@@ -29,16 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 }
                 if ($_SESSION['invers'] == 1){
                     negate($img);
-                    $inversion = 1
+                    $inversion = 1;
                 }
                 if (isset($_SESSION['crop']) and $_SESSION['crop'] == 1){
                     $img = crop($img, imagesx($img), imagesy($img));
                     $crop = 1;
                 }
-                if ($_SESSION['scale'] != 100){
+                if (isset($_SESSION['scale']) and $_SESSION['scale'] != 100){
                     $scale = 1;
                 }
-                if ($_SESSION['rotation'] != 0){
+                if (isset($_SESSION['rotation']) and $_SESSION['rotation'] != 0){
                     $rotation = 1;
                 }
                 $img = rotate($img, (int)$_SESSION['rotation']);
@@ -62,16 +62,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 }
                 if ($_SESSION['invers'] == 1){
                     negate($img);
-                    $inversion = 1
+                    $inversion = 1;
                 }
                 if (isset($_SESSION['crop']) and $_SESSION['crop'] == 1){
                     $img = crop($img, imagesx($img), imagesy($img));
                     $crop = 1;
                 }
-                if ($_SESSION['scale'] != 100){
+                if (isset($_SESSION['scale']) and $_SESSION['scale'] != 100){
                     $scale = 1;
                 }
-                if ($_SESSION['rotation'] != 0){
+                if (isset($_SESSION['rotation']) and $_SESSION['rotation'] != 0){
                     $rotation = 1;
                 }
                 $img = rotate($img, (int)$_SESSION['rotation']);
@@ -94,16 +94,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 }
                 if ($_SESSION['invers'] == 1){
                     negate($img);
-                    $inversion = 1
+                    $inversion = 1;
                 }
                 if (isset($_SESSION['crop']) and $_SESSION['crop'] == 1){
                     $img = crop($img, imagesx($img), imagesy($img));
                     $crop = 1;
                 }
-                if ($_SESSION['scale'] != 100){
+                if (isset($_SESSION['scale']) and  $_SESSION['scale'] != 100){
                     $scale = 1;
                 }
-                if ($_SESSION['rotation'] != 0){
+                if (isset($_SESSION['rotation']) and $_SESSION['rotation'] != 0){
                     $rotation = 1;
                 }
                 $img = rotate($img, (int)$_SESSION['rotation']);
@@ -117,12 +117,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             }
         }
         try{
-            //$sql = "UPDATE images SET blur = :blur, scale = :scale, crop = :crop, bw = :bw, inversion = :inversion, rotation = :rotation  WHERE user_id = :user_id AND name = :name";
-            //$stmt = $pdo->prepare($sql);
-            //$file_name_sep = mb_split("/", $path);
-            //echo $file_name_sep[count($file_name_sep) - 1];
-            //$stmt->execute(['blur' => $blur, 'bw' => $bw, 'scale' => $scale, 'rotation' => $rotation, 'inversion' => $inversion, 'crop' => $crop, 'user_id' => $_SESSION['id'], 'name' => $file_name_sep[count($file_name_sep) - 1]]);
-            //$stmt->fetch(PDO::FETCH_ASSOC);
+            $sql = "UPDATE images SET blur = :blur, scale = :scale, crop = :crop, bw = :bw, inversion = :inversion, rotation = :rotation  WHERE user_id = :user_id AND name = :name";
+            $stmt = $pdo->prepare($sql);
+            $file_name_sep = mb_split("/", $path);
+            $stmt->execute(['blur' => $blur, 'bw' => $bw, 'scale' => $scale, 'rotation' => $rotation, 'inversion' => $inversion, 'crop' => $crop, 'user_id' => $_SESSION['id'], 'name' => $file_name_sep[count($file_name_sep) - 1]]);
+            $stmt->fetch(PDO::FETCH_ASSOC);
         }
         catch (PDOException $e) {
             $error =  'Возникла неожиданная ошибка обращения к базе данных';
