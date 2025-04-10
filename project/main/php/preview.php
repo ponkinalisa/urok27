@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     <div class="btn" onclick="download()">Скачать</div>
 
     <div class="main" id="main">
-        <form action="preview.php" method="post">
+        <form action="preview.php" method="post" id="myform">
             <div class="item">
                 <input type="checkbox" name="blur" id="blur" value="blur" class="toggle" <?php if(isset($_SESSION['blur']) and $_SESSION['blur'] == 1){echo('checked');}?>>
                 <label for="blur">Добавить размытие</label>
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 <label for="invers">Инверсия</label>
             </div>
             <div class="item">
-                <select name="select" id="select">
+                <select name="select" id="select" onchange="document.getElementById('myform').submit()">
                     <option value="0" <?php if(isset($_SESSION['rotation']) and $_SESSION['rotation'] == '0'){echo('selected');}?>>0</option>
                     <option value="90" <?php if(isset($_SESSION['rotation']) and $_SESSION['rotation'] == '90'){echo('selected');}?>>90</option>
                     <option value="180" <?php if(isset($_SESSION['rotation']) and $_SESSION['rotation'] == '180'){echo('selected');}?>>180</option>
@@ -71,11 +71,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 <label for="select">Выбрать угол поворота</label>
             </div>
             <label for="range">Выбрать масштаб:</label>
-            <input type="range" id="range" name="range" max="100" min="0" <?php 
-            if (isset($_SESSION['scale'])){
-                echo 'value="'. $_SESSION["scale"] . '" style="background-size: ' . $_SESSION["scale"] . '% 100%;"';
-            }else{
-                echo 'value="100" style="background-size: 100% 100%;"';
+            <input type="range" id="range" name="range" max="200" min="10" <?php 
+            if (!isset($_SESSION['scale'])){
+                echo 'value="95" style="background-size: 50% 100%;"';}
+            else{
+                echo 'value="'.$_SESSION['scale'].'" style="background-size: '.(int)(($_SESSION['scale'] - 10) / 2).'% 100%;"';
             }
             ?>>
             <input id="btn_crop" value="Обрезать" type="button">
@@ -93,6 +93,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         function download(){
             window.location.href = "download.php";
         }
+
+        const toggles = document.querySelectorAll('input[type="checkbox"]')
+        const rotation = document.getElementById('select')
         const rangeInputs = document.querySelectorAll('input[type="range"]')
 const numberInput = document.querySelector('input[type="number"]')
 
@@ -105,14 +108,24 @@ function handleInputChange(e) {
   const max = target.max
   const val = target.value
   
-  target.style.backgroundSize = (val - min) * 100 / (max - min) + '% 100%'
+  target.style.backgroundSize = (val - min) * 100 / (max - min) + '% 100%';
 }
 
 rangeInputs.forEach(input => {
-  input.addEventListener('input', handleInputChange)
+  input.addEventListener('input', handleInputChange);
+  input.addEventListener('change', () =>{document.getElementById('myform').submit();});
+  input.addEventListener('DOMContentLoaded', handleInputChange);
 })
 
-numberInput.addEventListener('input', handleInputChange)
+toggles.forEach(input => {
+  input.addEventListener('change', () =>{document.getElementById('myform').submit();});
+  input.addEventListener('input', () =>{document.getElementById('myform').submit();});
+})
+
+rotation.addEventListener('onchange', () =>{document.getElementById('myform').submit();});
+rotation.addEventListener('input', () =>{document.getElementById('myform').submit();});
+numberInput.addEventListener('input', handleInputChange);
+numberInput.addEventListener('DOMContentLoaded', handleInputChange);
 
     </script>
     <script src="../js/crop.js"></script>

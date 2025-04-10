@@ -31,7 +31,6 @@ try{
         echo "<p>Дата начала использования приложения:<br> " . $user['date'] . "</p>";
         ?>
         <div onclick="my_photo()" class="button">Мои фото</div>
-        <div onclick="all_photo()" class="button">Галерея фото всех пользователей</div>
 </form>
     <?php 
     if (($error)){
@@ -45,9 +44,7 @@ try{
         function my_photo(){
             window.location.href = "my_photo.php";
         }
-        function all_photo(){
-            window.location.href = "all_photo.php";
-        }
+
     </script>
 </body>
 </html>

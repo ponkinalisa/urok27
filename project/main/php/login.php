@@ -1,7 +1,11 @@
 <?php
 require_once 'config.php';
 
-session_start(); // Начнем сессию для работы с CSRF-токеном
+session_start();
+
+if (isset($_SESSION['id']) or isset($_SESSION['login'])){
+    header('Location: start_screen.php');
+}
 
 // Проверяем, был ли отправлен POST-запрос с данными для регистрации
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -12,11 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Валидация данных
     if (empty($username) || empty($password)) {
         $error = 'Заполните все поля!';
-    }
-
-    // Проверка длины пароля
-    if (strlen($password) < 6) {
-        $error = 'Пароль должен содержать минимум 6 символов!';
     }
     if (!isset($error)){
         $sql = "SELECT * FROM users WHERE login = :username";

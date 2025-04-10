@@ -1,13 +1,19 @@
 <?php
 require_once 'config.php';
 
-session_start(); // Начнем сессию для работы с CSRF-токеном
+session_start();
+
+if (isset($_SESSION['id']) or isset($_SESSION['login'])){
+    header('Location: start_screen.php');
+}
 
 // Проверяем, был ли отправлен POST-запрос с данными для регистрации
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Проверка правильности введённых данных
     $username = trim($_POST['login']); // Удаляем лишние пробелы
     $password = $_POST['password'];
+
+    $password_regex = '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/'; 
 
     // Валидация данных
     if (empty($username) || empty($password)) {
@@ -17,6 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Проверка длины пароля
     if (strlen($password) < 6) {
         $error = 'Пароль должен содержать минимум 6 символов!';
+    }
+    if (preg_match($password_regex, $password) == 0){
+        $error = "Слишком слабый пароль. Пароль должен содержать минимум 1 заглавную букву [A-Z], 1 строчную букву[a-z], 1 специальный символ и минимум 6 символов в длину";
     }
 
     // Хешируем пароль

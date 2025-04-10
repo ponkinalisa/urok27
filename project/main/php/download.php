@@ -144,17 +144,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         <h3>Загрузка изображения</h3>
         <img src="img.php" alt="здесь должно быть ваше фото" <?php 
         if (isset($_SESSION['width']) and isset($_SESSION['width'])){
-            if ($_SESSION['width'] > 150){
-                $width = 150;
-                $height = (int)($_SESSION['height'] / ($_SESSION['width'] / 150));
+            $width = $_SESSION['width'];
+            $height = $_SESSION['height'];
+            if ($width > 200){
+                $height = (int)($height / ($width / 200));
+                $width = 200;
             }
-            if ($_SESSION['height'] > 150){
-                $height = 150;
-                $width = (int)($_SESSION['width'] / ($_SESSION['height'] / 150));
+            else if ($height > 200){
+                $width = (int)($width / ($height / 200));
+                $height = 200;
             }
         }else{
-            $height = 150;
-            $width = 150;
+            $height = 200;
+            $width = 200;
         }
         echo "width='$width px' height='$height px'";
         ?>>

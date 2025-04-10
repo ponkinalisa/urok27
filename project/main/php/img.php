@@ -16,11 +16,11 @@ if (isset($_SESSION['path']) and isset($_SESSION['type'])){
             if ($_SESSION['invers'] == 1){
                 negate($img);
             }
+            $img = rotate($img, (int)$_SESSION['rotation']);
+            $img = scale($img);
             if (isset($_SESSION['crop']) and $_SESSION['crop'] == 1){
                 $img = crop($img, imagesx($img), imagesy($img));
             }
-            $img = rotate($img, (int)$_SESSION['rotation']);
-            $img = scale($img);
             header('Content-Type: image/gif');
             imagepgif($img);
             imagedestroy($img);
@@ -37,11 +37,11 @@ if (isset($_SESSION['path']) and isset($_SESSION['type'])){
             if ($_SESSION['invers'] == 1){
                 negate($img);
             }
+            $img = rotate($img, (int)$_SESSION['rotation']);
+            $img = scale($img);
             if (isset($_SESSION['crop']) and $_SESSION['crop'] == 1){
                 $img = crop($img, imagesx($img), imagesy($img));
             }
-            $img = rotate($img, (int)$_SESSION['rotation']);
-            $img = scale($img);
             header('Content-Type: image/jpeg');
             imagejpeg($img);
             imagedestroy($img);
@@ -57,11 +57,11 @@ if (isset($_SESSION['path']) and isset($_SESSION['type'])){
             if ($_SESSION['invers'] == 1){
                 negate($img);
             }
+            $img = rotate($img, (int)$_SESSION['rotation']);
+            $img = scale($img);
             if (isset($_SESSION['crop']) and $_SESSION['crop'] == 1){
                 $img = crop($img, imagesx($img), imagesy($img));
             }
-            $img = rotate($img, (int)$_SESSION['rotation']);
-            $img = scale($img);
             header('Content-Type: image/png');
             imagepng($img);
             imagedestroy($img);

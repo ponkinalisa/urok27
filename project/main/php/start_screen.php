@@ -53,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $_SESSION['rotation'] = 0;
             $_SESSION['scale'] = 100;
             $_SESSION['crop'] = 0;
-            $_SESSION['width'] = 100;
-            $_SESSION['height'] = 100;
+            $_SESSION['width'] = getimagesize($path)[0];
+            $_SESSION['height'] = getimagesize($path)[1];
             $_SESSION['top'] = 0;
             $_SESSION['left'] = 0;
 
@@ -80,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 </head>
 <body>
     <div class="btn" onclick="download()">Личный кабинет</div>
+    <div onclick="all_photo()" class="btn button1">Галерея фото всех пользователей</div>
     <form enctype="multipart/form-data" action="start_screen.php" method="post">
         <h3>Выбор изображения</h3>
         <label id="fileformlabel" style="display: none; height: 0px;"></label>
@@ -117,6 +118,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     <script>
         function download(){
             window.location.href = "account.php";
+        }
+        function all_photo(){
+            window.location.href = "all_photo.php";
         }
     </script>
 </body>

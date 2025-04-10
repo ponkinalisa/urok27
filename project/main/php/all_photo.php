@@ -56,27 +56,27 @@ try{
 <form action="all_photo.php" method="post">
     <h3>Сортировки</h3>
     <div class="item">
-        <input type="checkbox" name="blur" id="blur" value="blur" class="toggle">
+        <input type="checkbox" name="blur" id="blur" value="blur" class="toggle" <?php if ($_POST['blur']){echo 'checked';};?>>
         <label for="blur">С размытием</label>
     </div>
     <div class="item">
-        <input type="checkbox" name="bw" id="bw" value="bw" class="toggle">
+        <input type="checkbox" name="bw" id="bw" value="bw" class="toggle" <?php if ($_POST['bw']){echo 'checked';};?>>
         <label for="bw">Черно-белое</label>
     </div>
     <div class="item">
-        <input type="checkbox" name="invers" id="invers" value="invers" class="toggle">
+        <input type="checkbox" name="invers" id="invers" value="invers" class="toggle" <?php if ($_POST['invers']){echo 'checked';};?>>
         <label for="invers">С инверсией</label>
     </div>
     <div class="item">
-        <input type="checkbox" name="crop" id="crop" value="crop" class="toggle">
+        <input type="checkbox" name="crop" id="crop" value="crop" class="toggle" <?php if ($_POST['crop']){echo 'checked';};?>>
         <label for="crop">Обрезанное</label>
     </div>
     <div class="item">
-        <input type="checkbox" name="rotation" id="rotation" value="rotation" class="toggle">
+        <input type="checkbox" name="rotation" id="rotation" value="rotation" class="toggle" <?php if ($_POST['rotation']){echo 'checked';};?>>
         <label for="rotation">Повернутое</label>
     </div>
     <div class="item">
-        <input type="checkbox" name="scale" id="scale" value="scale" class="toggle">
+        <input type="checkbox" name="scale" id="scale" value="scale" class="toggle" <?php if ($_POST['scale']){echo 'checked';};?>>
         <label for="scale">Измененный масштаб</label>
     </div>
     <input type="submit" value="Применить сортировки">
@@ -86,21 +86,30 @@ try{
         foreach($cards as $card){
             $width = getimagesize('../user_img/'.$user['login'].'/'. $card['name'])[0];
             $height = getimagesize('../user_img/'.$user['login'].'/'. $card['name'])[1];
-            if ($width > 150){
-                $height = (int)($height / ($width / 150));
+            if (isset($width) and isset($width)){
+                if ($width > 150){
+                    $height = (int)($height / ($width / 150));
+                    $width = 150;
+                }
+                else if ($height > 150){
+                    $width = (int)($width / ($height / 150));
+                    $height = 150;
+                }
+                else{
+                    $height = 150;
+                    $width = 150;
+                }
+            }else{
+                $height = 150;
                 $width = 150;
             }
-            if ($height > 150){
-                $width = (int)($width / ($height / 150));
-                $height = 150;
-            }
-            else{
-                $width = (int)($width / ($height / 150));
-                $height = 150;
-            }
+            $sql = "SELECT login FROM users WHERE id = :id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['id' => $card['user_id']]);
+            $directory = $stmt->fetch()[0];
             
             echo '<div class="card"">';
-            echo '<img src="../user_img/'.$user['login'].'/'. $card['name'] .'" width="'. $width. 'px" height="'. $height .'px">';
+            echo '<img src="../user_img/'.$directory.'/'. $card['name'] .'" width="'. $width. 'px" height="'. $height .'px">';
             echo '<h4>' . $card['name'] . '</h4>';
             echo '<p>' . $card['description'] . '</p>';
             echo '<p>' . $card['date'] . '</p>';
