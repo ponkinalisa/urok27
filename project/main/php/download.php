@@ -140,6 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 </head>
 <body>
 <div class="btn" onclick="download()">Редактировать</div>
+<div class="btn button1" onclick="account()">Личный кабинет</div>
     <form enctype="multipart/form-data" action="download.php" method="post">
         <h3>Загрузка изображения</h3>
         <img src="img.php" alt="здесь должно быть ваше фото" <?php 
@@ -170,6 +171,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     <script>
         function download(){
             window.location.href = "start_screen.php";
+        }
+        function account(){
+            window.location.href = "account.php";
         }
     </script>
 </body>
